@@ -5,13 +5,15 @@ import { consoleLogs } from "./e2e";
 const logEvidence = (name: string, step: number, description: string, evidenceLogs: string[]) => {
   cy.url().then(url => {
     const logs: string[] = [];
-    logs.push('=====================================');
-    logs.push(`Testname: ${name} // step: ${step}`);
-    logs.push(`URL: ${url}`);
-    logs.push(`Description: ${description}`);
-    logs.push('----- Test Evidence starts here ----');
-    logs.push(...evidenceLogs);
-    logs.push('----- Test Evidence ends here ----');
+    const obj = {
+      "testName": name,
+      "step": step,
+      "URL": url,
+      "description": description,
+      "evidenceLogs": evidenceLogs
+    }
+    logs.push(JSON.stringify(obj));
+    logs.push('<<<>>>')
     consoleLogs.push(...logs);
     cy.task('log', logs.join('\n'));
   });
